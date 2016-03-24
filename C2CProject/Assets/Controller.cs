@@ -10,6 +10,8 @@ public class Controller : MonoBehaviour {
 
 	public GameObject cart;
 
+	public Transform cart1, cart2;
+
 	public string playbackspeed;
 
 	public string currentcar;
@@ -22,6 +24,8 @@ public class Controller : MonoBehaviour {
 	public AnimatorClipInfo[] animationclip;
 
 	public GameObject[] Cart1Seats;
+
+	public GameObject[] Cart2Seats;
 
 	private int currentseat;
 
@@ -96,13 +100,40 @@ public class Controller : MonoBehaviour {
 
 	public void ChangeSeat()
 	{
-		if (currentseat >= Cart1Seats.Length - 1) {
-			currentseat = 0;
+		if (transform.parent == cart1) {
+			if (currentseat >= Cart1Seats.Length - 1) {
+				currentseat = 0;
+				transform.position = Cart1Seats [currentseat].transform.position;
+				return;
+			}
+
+			currentseat += 1;
 			transform.position = Cart1Seats [currentseat].transform.position;
-			return;
+		}
+		if (transform.parent == cart2) {
+			if (currentseat >= Cart2Seats.Length - 1) {
+				currentseat = 0;
+				transform.position = Cart2Seats [currentseat].transform.position;
+				return;
+			}
+
+			currentseat += 1;
+			transform.position = Cart2Seats [currentseat].transform.position;
 		}
 
-		currentseat += 1;
-		transform.position = Cart1Seats [currentseat].transform.position;
+	}
+	public void ChangeCar()
+	{
+
+
+		if (transform.parent == cart1) {
+			transform.parent = cart2;
+			transform.position = Cart2Seats [0].transform.position;
+			currentseat = 0;
+		} else {
+			transform.parent = cart1;
+			transform.position = Cart1Seats [0].transform.position;
+			currentseat = 0;
+		}
 	}
 }
